@@ -1,2 +1,2 @@
 # AOLootLogHelper
-Tool made for Albion online. This tool compare a loot and a chest log and finds all ratted gear.
+Compares a loot and chest log to find out all the gear that was not donated after a cta.
