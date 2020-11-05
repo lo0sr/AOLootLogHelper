@@ -175,7 +175,7 @@ class Logs():
 
 
 	def clean_chest_log(self, guild_or_alliance):
-		self.chest_log.columns = ['IDK', 'Date', 'Player Name', 'Item Name', 'Enchantment', 'Quality', 'Amount']
+		self.chest_log.columns = ['Date', 'Player Name', 'Item Name', 'Enchantment', 'Quality', 'Amount']
 		self.chest_log.drop(['Quality'], axis=1, inplace=True)
 		self.chest_log = self.filter_removes(self.chest_log)
 		self.chest_log = self.filter_armor(self.chest_log)
