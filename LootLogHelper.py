@@ -164,7 +164,7 @@ class Logs():
 
 	def clean_loot_log(self, guild_or_alliance):
 		self.loot_log.columns = ['IDK', 'Date', 'Alliance', 'Guild', 'Player Name', 'Item Id', 'Item Name', 'Enchantment', 'Amount', 'Victim']
-		self.loot_log.drop(['Item Id', 'Victim'], axis=1, inplace=True)
+		self.loot_log.drop(['IDK', 'Item Id', 'Victim'], axis=1, inplace=True)
 		self.loot_log = self.filter_allies(self.loot_log, guild_or_alliance)
 		self.loot_log.drop(['Alliance', 'Guild'], axis=1, inplace=True)
 		self.loot_log = self.filter_armor(self.loot_log)
