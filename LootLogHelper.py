@@ -191,18 +191,14 @@ class Logs():
 		relevant_chest_log_start = self.chest_log[self.chest_log['Date'] > self.loot_log['Date'].values[0]] 
 		relevant_chest_log_end = self.chest_log[self.chest_log['Date'] < (self.loot_log['Date'].values[-1] + np.timedelta64(2, 'h'))]
 
-		# print(self.loot_log['Date'].values[-1])
-		# print((self.loot_log['Date'].values[-1] + np.timedelta64(2, 'h')))
-
 		relevant_chest_log = relevant_chest_log_start.merge(relevant_chest_log_end, how='inner')
 
-		df1 = self.loot_log.loc[self.loot_log['Player Name'].isin(relevant_chest_log['Player Name'].values)]
-		df2 = self.loot_log.loc[self.loot_log['Item Name'].isin(relevant_chest_log['Item Name'].values)]
+		keys = list(['Player Name', 'Item Name'])
 
-		picked_up_and_donated = df1.merge(df2, how='inner')
-		missing_loot = pd.concat([self.loot_log, picked_up_and_donated]).drop_duplicates(keep=False)
+		df1 = self.loot_log.set_index(keys).index
+		df2 = relevant_chest_log.set_index(keys).index
+		self.missing_loot = self.loot_log[~df1.isin(df2)]
 
-		self.missing_loot = missing_loot
 		return self.missing_loot
 
 
@@ -267,7 +263,9 @@ class Logs():
 		ratted_loot_log = self.compare_missing_loot_and_player_deaths(guild_or_alliance)
 
 		writer = pd.ExcelWriter(output_file_name)
-		ratted_loot_log.to_excel(writer, sheet_name='ratted_loot')
+		self.loot_log.to_excel(writer, sheet_name='clean_loot_log')
+		self.chest_log.to_excel(writer, sheet_name='clean_chest_log')
+		ratted_loot_log.to_excel(writer, sheet_name='missing_loot')
 		writer.save()
 
 
